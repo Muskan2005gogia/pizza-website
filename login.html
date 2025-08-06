@@ -1,0 +1,144 @@
+<!-- code by muskan gogia -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #d35400;
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus {
+      border-color: #d35400;
+      outline: none;
+      box-shadow: 0 0 5px rgba(211, 84, 0, 0.4);
+    }
+
+    button {
+      background-color: #d35400;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #e67e22;
+      transform: scale(1.02);
+    }
+
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #c0392b;
+    }
+
+    a {
+      color: #d35400;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <img class="background-img" src="https://images5.alphacoders.com/381/381504.jpg" alt="Pizza Background">
+
+  <div class="container">
+    <h2>Login</h2>
+    <input type="text" id="phone" placeholder="Phone (10-digit)" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+    <input type="password" id="password" placeholder="4-digit Password" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+    <button onclick="loginUser()">Login</button>
+    <p id="message"></p>
+    <p><a href="forgot.html">Forgot Password?</a></p>
+  </div>
+
+  <script>
+    // code by muskan gogia
+    function loginUser() {
+      const phone = document.getElementById("phone").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const message = document.getElementById("message");
+
+      if (!/^\d{10}$/.test(phone)) {
+        message.innerText = "Please enter a valid 10-digit phone number.";
+        message.style.color = "red";
+        return;
+      }
+
+      if (!/^\d{4}$/.test(password)) {
+        message.innerText = "Please enter a valid 4-digit password.";
+        message.style.color = "red";
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const userFound = users.find(user => user.phone === phone && user.password === password);
+
+      if (userFound) {
+        message.innerText = "Login successful! Redirecting...";
+        message.style.color = "green";
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1000);
+      } else {
+        message.innerText = "Invalid phone number or password.";
+        message.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>

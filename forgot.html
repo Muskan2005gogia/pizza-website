@@ -1,0 +1,97 @@
+<!-- code by muskan gogia -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reset Password</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #d35400;
+      margin-bottom: 20px;
+      font-size: 26px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus {
+      border-color: #d35400;
+      outline: none;
+      box-shadow: 0 0 5px rgba(211, 84, 0, 0.4);
+    }
+
+    button {
+      background-color: #d35400;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #e67e22;
+      transform: scale(1.02);
+    }
+
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <img class="background-img" src="https://images5.alphacoders.com/381/381504.jpg" alt="Pizza Background">
+  <div class="container">
+    <h2>Reset Password</h2>
+    <input type="text" id="phone" placeholder="Registered Phone Number" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+    <input type="password" id="newPassword" placeholder="New 4-digit Password" maxlength="4">
+    <button onclick="resetPassword()">Reset</button>
+    <p id="message"></p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
