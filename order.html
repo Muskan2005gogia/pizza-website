@@ -1,0 +1,262 @@
+<!-- code by muskan gogia -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Confirmed - Delicious Pizza</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #ffe0b2, #fff3e0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 15px;
+      padding: 40px 60px;
+      max-width: 700px;
+      width: 100%;
+    }
+    .icon img {
+      height: 80px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #27ae60;
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 20px;
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+    a.button, button {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #e74c3c;
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    a.button:hover, button:hover {
+      background-color: #c0392b;
+    }
+    #orderSummary {
+      margin-top: 30px;
+      text-align: left;
+    }
+    #orderSummary h2 {
+      font-size: 24px;
+      color: #e67e22;
+      margin-bottom: 10px;
+    }
+    #orderItems {
+      list-style: none;
+      padding: 0;
+      font-size: 18px;
+    }
+    #orderItems li {
+      margin-bottom: 8px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    #countdownBox {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #888;
+    }
+    /* Rating Section */
+    .rating {
+      margin-top: 30px;
+      font-size: 30px;
+    }
+    .star {
+      color: #f1c40f;
+      cursor: pointer;
+    }
+    .star:hover {
+      color: #f39c12;
+    }
+    .emoji-rating {
+      margin-top: 20px;
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .emoji-rating span {
+      cursor: pointer;
+      font-size: 40px;
+    }
+    .emoji-rating span:hover {
+      transform: scale(1.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">
+      <img src="data:image/jpeg;base64,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" alt="Pizza Delivery">
+    </div>
+    <h1>Thank You!</h1>
+    <p>Your order has been placed successfully.</p>
+    <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+    <p><strong>Estimated Delivery:</strong> 🍕 Your pizza will be at your door soon! 🍕</p>
+
+    <!-- Total Price Section -->
+    <p><strong>Total Price:</strong> ₹<span id="totalPrice"></span></p>
+
+    <div id="orderSummary">
+      <h2>Your Order Summary:</h2>
+      <ul id="orderItems"></ul>
+    </div>
+
+    <button onclick="window.print()">🧾 Print Receipt</button>
+    <br>
+    <a href="index.html" class="button">Back to Home</a>
+
+    <div id="countdownBox">
+      Redirecting to homepage in <span id="countdown">60</span> seconds...
+    </div>
+
+    <!-- Rating Section -->
+    <div class="rating">
+      <h3>Rate Your Experience:</h3>
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
+    </div>
+
+    <!-- Emoji Rating Section -->
+    <div class="emoji-rating">
+      <span data-value="happy" role="img" aria-label="happy">😊</span>
+      <span data-value="love" role="img" aria-label="love">😍</span>
+      <span data-value="neutral" role="img" aria-label="neutral">😐</span>
+      <span data-value="sad" role="img" aria-label="sad">😞</span>
+      <span data-value="angry" role="img" aria-label="angry">😡</span>
+    </div>
+  </div>
+
+  <script>
+    // Generate random order ID
+    document.getElementById("orderId").textContent = "PZ" + Math.floor(100000 + Math.random() * 900000);
+
+    // Product price reference
+    const productPrices = {
+      "Margherita Pizza": 200,
+      "Farmhouse Pizza": 250,
+      "Cheese Burst Pizza": 300,
+      "Tandoori Paneer Pizza": 280,
+      "Garlic Bread": 150,
+      "Chocolate Lava Cake": 120,
+      "Taco Mexicana": 140,
+      "Cheese Dip": 60,
+      "Red Sauce Pasta": 180,
+      "Margherita Special": 199,
+      "Farmhouse Feast": 299,
+      "Peppy Paneer Delight": 349
+    };
+
+    // Load order items from localStorage
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const list = document.getElementById("orderItems");
+    let totalPrice = 0; // To calculate the total price
+
+    if (cart.length === 0) {
+      list.innerHTML = "<li>No items found.</li>";
+    } else {
+      cart.forEach(item => {
+        const basePrice = productPrices[item.name];
+        let sizePrice = 0;
+
+        // Adjust price based on size
+        if (item.size === "Medium") {
+          sizePrice = 50; // Medium price increase
+        } else if (item.size === "Large") {
+          sizePrice = 100; // Large price increase
+        }
+
+        // Calculate the total price for this item (base price + size adjustment) * quantity
+        const itemTotal = (basePrice + sizePrice) * item.quantity;
+        totalPrice += itemTotal;
+
+        // Append the item to the order summary list
+        const li = document.createElement("li");
+        li.innerHTML = `${item.name} (${item.size}, ${item.crust}) ×${item.quantity} – ₹${itemTotal}<br>`;
+
+        // Add GST below each item
+        const gst = (itemTotal * 0.05).toFixed(2);
+        li.innerHTML += `<small>GST (5%): ₹${gst}</small><br>`;
+
+        list.appendChild(li);
+      });
+    }
+
+    // Add GST (5%) and Delivery Charges (₹50) to the total price
+    const gst = totalPrice * 0.05;
+    const deliveryCharge = 50;
+
+    const finalPrice = totalPrice + gst + deliveryCharge;
+
+    // Display total price including GST and delivery charges
+    document.getElementById("totalPrice").textContent = finalPrice.toFixed(2);
+
+    // Display delivery charge only once
+    const deliveryChargeElement = document.createElement("p");
+    deliveryChargeElement.innerHTML = `<strong>Delivery Charge:</strong> ₹${deliveryCharge}`;
+    document.getElementById("orderSummary").appendChild(deliveryChargeElement);
+
+    // Optional: Clear cart after placing order
+    // localStorage.removeItem("cart");
+
+    // Redirect countdown
+    let sec = 60;
+    const countdown = document.getElementById("countdown");
+    const interval = setInterval(() => {
+      sec--;
+      countdown.textContent = sec;
+      if (sec === 0) {
+        clearInterval(interval);
+        window.location.href = "index.html";
+      }
+    }, 1000);
+
+    // Rating system with stars
+    const stars = document.querySelectorAll(".star");
+    stars.forEach(star => {
+      star.addEventListener("click", () => {
+        const ratingValue = star.getAttribute("data-value");
+        alert(`You rated: ${ratingValue} stars`);
+        // Here you can save the rating to localStorage or send it to your server
+      });
+    });
+
+    // Emoji rating system
+    const emojis = document.querySelectorAll(".emoji-rating span");
+    emojis.forEach(emoji => {
+      emoji.addEventListener("click", () => {
+        const emojiValue = emoji.getAttribute("data-value");
+        alert(`You selected the ${emojiValue} emoji!`);
+        // You can also save this emoji feedback
+      });
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,153 @@
+<!-- code by muskan gogia -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Place Your Order - Delicious Pizza</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background: url('https://images.unsplash.com/photo-1600891964373-3b4a5b4dbbdd') no-repeat center center/cover;
+      background-attachment: fixed;
+      color: #333;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      margin-right: 20px;
+    }
+
+    nav a:hover {
+      color: #f39c12;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #e74c3c;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      resize: none;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      background-color: #e74c3c;
+      color: white;
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div style="color:white; font-size: 22px;">Delicious Pizza</div>
+    <div>
+      <a href="home.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="cart.html">Cart</a>
+      <a href="deals.html">Deals</a>
+      <a href="signin.html">Sign In</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Enter Your Delivery Details</h2>
+    <form id="addressForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Enter your full name" required pattern="[A-Za-z\s]+" title="Only letters and spaces allowed">
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="Enter your phone number" required maxlength="10" pattern="\d{10}" title="Enter a 10-digit phone number">
+
+      <label for="address">Address</label>
+      <textarea id="address" rows="4" placeholder="Flat no, Street, Area, City" required></textarea>
+
+      <label for="pincode">Pincode</label>
+      <input type="text" id="pincode" placeholder="Enter your area pincode" required maxlength="6" pattern="\d{6}" title="Enter a 6-digit pincode">
+
+      <button type="submit">Confirm Order</button>
+    </form>
+  </div>
+
+  <script>
+    // Name: allow only letters and spaces
+    document.getElementById("name").addEventListener("keypress", function(e) {
+      if (!/^[a-zA-Z\s]$/.test(e.key)) {
+        e.preventDefault();
+      }
+    });
+
+    // Phone: allow only digits
+    document.getElementById("phone").addEventListener("input", function() {
+      this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    });
+
+    // Pincode: allow only digits
+    document.getElementById("pincode").addEventListener("input", function() {
+      this.value = this.value.replace(/\D/g, '').slice(0, 6);
+    });
+
+    // Form validation before redirect
+    document.getElementById("addressForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const pincode = document.getElementById("pincode").value.trim();
+
+      if (name && phone.length === 10 && address && pincode.length === 6) {
+        localStorage.setItem("userDetails", JSON.stringify({ name, phone, address, pincode }));
+        window.location.href = "payment.html";
+      } else {
+        alert("Please fill all fields correctly!");
+      }
+    });
+  </script>
+
+</body>
+</html>

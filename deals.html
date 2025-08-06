@@ -1,0 +1,259 @@
+<!-- code by muskan gogia -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deals - Delicious Pizza</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff5f5;
+      color: #333;
+    }
+
+    header {
+      background-color: #e74c3c;
+      padding: 25px;
+      text-align: center;
+      color: white;
+    }
+
+    nav {
+      background-color: #c0392b;
+      display: flex;
+      justify-content: center;
+      padding: 12px 0;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffd9d9;
+    }
+
+    .deals-container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .deal-item {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 300px;
+      transition: transform 0.2s;
+    }
+
+    .deal-item:hover {
+      transform: scale(1.02);
+    }
+
+    .deal-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .deal-details {
+      padding: 16px;
+    }
+
+    .deal-details h3 {
+      margin-top: 0;
+      color: #e74c3c;
+      font-size: 20px;
+    }
+
+    .deal-details p {
+      margin: 6px 0;
+      font-size: 14px;
+    }
+
+    .deal-price {
+      font-size: 18px;
+      color: #27ae60;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .controls {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .controls-row label {
+      font-weight: 500;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .controls-row select {
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .order-btn {
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+
+    .order-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Exclusive Deals</h1>
+    <p>Choose from the best deals and add to your cart</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html">Cart</a>
+    <a href="deals.html">Deals</a>
+    <a href="feedback&quaries.html">Help Desk</a>
+  </nav>
+
+  <div class="deals-container" id="dealsContainer"></div>
+
+  <script>
+    const deals = [
+      {
+        name: 'Margherita Special',
+        image: 'https://th.bing.com/th/id/OIP.BfmeqjIxo0RYNrtSW8NYQQHaFU?w=186&h=133&c=7&r=0&o=5&dpr=1.5&pid=1.7',
+        description: 'Delicious Margherita Pizza with a special deal!',
+        price: 199,
+        id: 1
+      },
+      {
+        name: 'Farmhouse Feast',
+        image: 'https://www.twopeasandtheirpod.com/wp-content/uploads/2021/03/Veggie-Pizza-8.jpg',
+        description: 'Farmhouse Pizza Feast with tasty toppings.',
+        price: 299,
+        id: 2
+      },
+      {
+        name: 'Peppy Paneer Delight',
+        image: 'https://th.bing.com/th/id/OIP.vB5NBKhFOLeR8pqBLCm3fQHaEc?w=281&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7',
+        description: 'Enjoy a peppy paneer pizza with extra cheese!',
+        price: 349,
+        id: 3
+      }
+    ];
+
+    function addToCart(dealId) {
+      const sizeSelect = document.getElementById(`size-${dealId}`);
+      const crustSelect = document.getElementById(`crust-${dealId}`);
+
+      const sizeText = sizeSelect.options[sizeSelect.selectedIndex].text;
+      const sizeValue = +sizeSelect.value;
+
+      const crustText = crustSelect.options[crustSelect.selectedIndex].text;
+      const crustValue = +crustSelect.value;
+
+      const deal = deals.find(d => d.id === dealId);
+      const finalPrice = deal.price + sizeValue + crustValue;
+
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      const item = {
+        name: deal.name,
+        image: deal.image || `https://source.unsplash.com/300x200/?pizza,deal`,
+        price: finalPrice,
+        size: sizeText,
+        crust: crustText,
+        quantity: 1,
+        id: deal.id
+      };
+
+      cart.push(item);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${deal.name} added to cart with ${sizeText}, ${crustText}`);
+    }
+
+    function loadDeals() {
+      const container = document.getElementById('dealsContainer');
+      container.innerHTML = '';
+
+      deals.forEach(deal => {
+        if (!deal.image) {
+          deal.image = `https://source.unsplash.com/300x200/?pizza,deal`;
+        }
+
+        const dealHTML = `
+          <div class="deal-item">
+            <img src="${deal.image}" alt="${deal.name}" class="deal-img">
+            <div class="deal-details">
+              <h3>${deal.name}</h3>
+              <p>${deal.description}</p>
+              <p class="deal-price">Base Price: ₹${deal.price}</p>
+
+              <div class="controls">
+                <div class="controls-row">
+                  <label>Size:</label>
+                  <select id="size-${deal.id}">
+                    <option value="0">Small</option>
+                    <option value="50">Medium (+₹50)</option>
+                    <option value="100">Large (+₹100)</option>
+                  </select>
+                </div>
+
+                <div class="controls-row">
+                  <label>Crust:</label>
+                  <select id="crust-${deal.id}">
+                    <option value="0">Pan Pizza</option>
+                    <option value="30">Cheese Burst (+₹30)</option>
+                    <option value="20">Margherita (+₹20)</option>
+                  </select>
+                </div>
+              </div>
+
+              <button class="order-btn" onclick="addToCart(${deal.id})">Add to Cart</button>
+            </div>
+          </div>
+        `;
+        container.innerHTML += dealHTML;
+      });
+    }
+
+    window.onload = loadDeals;
+  </script>
+
+</body>
+</html>

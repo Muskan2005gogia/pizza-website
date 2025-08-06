@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart - Delicious Pizza</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1585238341976-d2676ac1f1ab?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #f39c12;
+    }
+
+    .cart-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+
+    .cart-details {
+      flex: 1;
+    }
+
+    .cart-details h3 {
+      margin: 0;
+      color: #e74c3c;
+    }
+
+    .cart-details p {
+      margin: 4px 0;
+    }
+
+    .cart-price {
+      font-size: 18px;
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .remove-btn {
+      background-color: red;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+
+    .place-order {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .place-order button {
+      background-color: #2ecc71;
+      color: white;
+      padding: 12px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .place-order button:hover {
+      background-color: #27ae60;
+    }
+
+    .empty {
+      text-align: center;
+      color: #999;
+      padding: 60px 20px;
+      font-size: 20px;
+    }
+
+    .empty span {
+      font-size: 40px;
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Your Cart</h1>
+    <p>Review your items before placing the order</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html">Cart</a>
+    <a href="deals.html">Deals</a>
+    <a href="feedback&quaries.html">Help Desk</a>
+  </nav>
+
+  <div class="cart-container" id="cartContainer">
+    <!-- Cart items will be injected here -->
+  </div>
+
+  <div class="place-order">
+    <button onclick="placeOrder()">Place Order</button>
+  </div>
+
+  <script>
+    const noCrustItems = [
+      "Garlic Bread",
+      "Chocolate Lava Cake",
+      "Taco Mexicana",
+      "Cheese Dip",
+      "Red Sauce Pasta"
+    ];
+
+    function getFixedPrice(itemName) {
+      const prices = {
+        "Margherita": 199,
+        "Farmhouse": 299,
+        "Peppy Paneer": 349,
+        "Veggie Delight": 269,
+        "Cheese Burst": 399,
+        "Paneer Tikka": 329,
+        "Garlic Bread": 149,
+        "Stuffed Crust": 299
+      };
+      return prices[itemName] || 250;
+    }
+
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const container = document.getElementById('cartContainer');
+      container.innerHTML = '';
+
+     
+
+      if (cart.length === 0) {
+        container.innerHTML = '<div class="empty">Your cart is empty 😢<span>🛒</span></div>';
+        document.querySelector('.place-order button').disabled = true;
+        document.querySelector('.place-order button').style.opacity = '0.6';
+        document.querySelector('.place-order button').style.cursor = 'not-allowed';
+        return;
+      } else {
+        document.querySelector('.place-order button').disabled = false;
+        document.querySelector('.place-order button').style.opacity = '1';
+        document.querySelector('.place-order button').style.cursor = 'pointer';
+      }
+      
+
+      cart.forEach((item, index) => {
+        const pricePerItem = item.price || getFixedPrice(item.name);
+        const totalPrice = pricePerItem * item.quantity;
+
+        const crustLine = !noCrustItems.includes(item.name)
+          ? `<p>Crust: ${item.crust}</p>` : '';
+
+        const itemHTML = `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="cart-img">
+            <div class="cart-details">
+              <h3>${item.name}</h3>
+              <p>Size: ${item.size}</p>
+              ${crustLine}
+              <p>Quantity: ${item.quantity}</p>
+              <p>Price per item: ₹${pricePerItem}</p>
+              <p class="cart-price">Total: ₹${totalPrice}</p>
+            </div>
+            <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+          </div>
+        `;
+
+        container.innerHTML += itemHTML;
+      });
+    }
+
+    function removeItem(index) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+
+    function placeOrder() {
+      window.location.href = "placeorder.html";
+    }
+
+    window.onload = loadCart;
+  </script>
+
+</body>
+</html>
